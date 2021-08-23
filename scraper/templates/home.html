@@ -1,0 +1,136 @@
+{% load static %}
+
+<html lang="">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="author" content="colorlib.com">
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet"/>
+    <link href="{% static 'css/main.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'scraper/table.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <title></title>
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Scraper</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="hello-msg" href="{% url 'logout' %}">LogOut <span class="sr-only">(current)</span></a>
+      </li>
+
+    </ul>
+  </div>
+</nav>
+
+
+<div class="s131">
+    <form action="{% url 'scraper-home' %}" method="POST">
+        {% csrf_token %}
+        <div class="inner-form">
+            <div class="input-field first-wrap">
+                <input id="search" name="cher" type="text" placeholder="What are you looking for?"/>
+            </div>
+            <div class="input-field second-wrap">
+                <div class="input-select">
+                    <select data-trigger="" name="selector">
+                        <option name="selector" value="">CATEGORY</option>
+                        <option name="selector" value="high">Highest Price</option>
+                        <option name="selector" value="low">Lowest Price</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-field second-wrap">
+                <div class="input-select">
+                    <select data-trigger="" name="selectorSite">
+                        <option name="selectorSite" value="ebay">Ebay</option>
+                        <option name="selectorSite" value="ali">AliExpress</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-field third-wrap">
+                <button class="btn-search" type="submit">SEARCH</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% if refe == 'ali' %}
+    <table>
+        <tr>
+            <th>nom</th>
+            <th>prix</th>
+            <th>favoris</th>
+        <tr>
+
+            {% for obj in list %}
+
+
+                <tr>
+                    <td><a href="{{ link }}">{{ obj.nom }}</a></td>
+                    <td>{{ obj.prix }}</td>
+                    <td><a href="/favorite/{{ obj.nom }}/{{ obj.prix }}">Favorite</a></td>
+                </tr>
+            {% endfor %}
+
+    </table>
+{% endif %}
+
+
+
+{% if ref == True %}
+    <table class="table">
+        <tr>
+            <th>Item Title</th>
+            <th>Condition</th>
+            <th>Item Price</th>
+            <th>Shipping</th>
+            <th>Total Price</th>
+        </tr>
+
+        <tr>
+            {% for item in items %}
+
+                <td>
+                    <a class="link" target="_blank" href={{ item.5 }}>{{ item.0 }}</a>
+                </td>
+
+                <td>
+                    {{ item.1 }}
+                </td>
+
+                <td>
+                    {{ item.2 }}
+                </td>
+
+                <td>
+                    {{ item.3 }}
+                </td>
+
+                <td>
+                    {{ item.4 }}
+                </td>
+
+                <tr>
+            {% endfor %}
+    </table>
+{% endif %}
+
+<script src="../static/js/extention/choices.js"></script>
+<script>
+    const choices = new Choices('[data-trigger]',
+        {
+            searchEnabled: false
+        });
+
+</script>
+</body>
+</html>
